@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta | Caroline Pereira CRECI 17.635 — Ana | Automações e IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=Reenie+Beanie&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        base: '#1f1f23',
+                        'base-card': '#27273a',
+                        'base-card2': '#2e2250',
+                        purple: '#5a28b9',
+                        'purple-mid': '#ac78ed',
+                        'purple-light': '#ded2ff',
+                        offwhite: '#eeeeee',
+                        snow: '#fefefe',
+                    },
+                    fontFamily: {
+                        serif: ['DM Serif Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        hand: ['Reenie Beanie', 'cursive'],
+                    },
+                    borderRadius: {
+                        'organic': '40px',
+                        'organic-lg': '64px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.18;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 200px 200px;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: #1f1f23;
+            color: #fefefe;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .label-ui {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+        }
+        .label-ui-lg {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+        .hand-underline { position: relative; display: inline-block; }
+        .hand-underline svg { position: absolute; bottom: -8px; left: -4px; width: calc(100% + 8px); height: 14px; }
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-children > * { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+        .reveal-children.visible > *:nth-child(1) { transition-delay: 0s; opacity: 1; transform: translateY(0); }
+        .reveal-children.visible > *:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+        .reveal-children.visible > *:nth-child(3) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+        .reveal-children.visible > *:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+        .reveal-children.visible > *:nth-child(5) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+        .reveal-children.visible > *:nth-child(6) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+        .reveal-children.visible > *:nth-child(7) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+        .reveal-children.visible > *:nth-child(8) { transition-delay: 0.7s; opacity: 1; transform: translateY(0); }
+        .philosophy-card {
+            background: #27273a;
+            color: #fefefe;
+            transition: background 500ms ease, color 500ms ease;
+        }
+        .philosophy-card:hover {
+            background: #5a28b9;
+            color: #fefefe;
+        }
+        .philosophy-card .card-icon { transition: color 500ms ease; color: #ac78ed; }
+        .philosophy-card:hover .card-icon { color: #ded2ff; }
+        .philosophy-card .card-number { transition: opacity 500ms ease, color 500ms ease; color: #ac78ed; }
+        .philosophy-card:hover .card-number { color: #ded2ff; opacity: 0.6; }
+        .philosophy-card p, .philosophy-card li { color: rgba(255,255,255,0.75); }
+        .philosophy-card:hover p, .philosophy-card:hover li { color: rgba(255,255,255,0.9); }
+        .philosophy-card h3 { color: #fefefe; }
+        .philosophy-card .label-ui { color: rgba(172,120,237,0.7) !important; }
+        .philosophy-card:hover .label-ui { color: rgba(222,210,255,0.8) !important; }
+        .price-old {
+            position: relative;
+            color: #fefefe;
+            opacity: 0.4;
+        }
+        .price-old::after {
+            content: '';
+            position: absolute;
+            left: -4px; right: -4px;
+            top: 50%;
+            height: 3px;
+            background: #5a28b9;
+            transform: rotate(-3deg);
+            border-radius: 2px;
+        }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%; right: 50%;
+            height: 3px;
+            background: #ac78ed;
+            border-radius: 2px;
+            transition: left 0.3s ease, right 0.3s ease;
+        }
+        .nav-link:hover::after { left: 0; right: 0; }
+        .gallery-scroll { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .gallery-scroll::-webkit-scrollbar { display: none; }
+        .gallery-scroll > * { scroll-snap-align: start; }
+        .glow-top { position: relative; overflow: hidden; }
+        .glow-top::before {
+            content: '';
+            position: absolute;
+            top: -60px; left: 50%;
+            transform: translateX(-50%);
+            width: 400px; height: 200px;
+            background: rgba(172,120,237,0.2);
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .btn-pill { border-radius: 999px; transition: background 0.4s ease, color 0.4s ease, transform 0.3s ease; }
+        .btn-pill:hover { transform: scale(1.04); }
+        .timeline-line { position: absolute; left: 23px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #ac78ed, transparent); }
+        @media (max-width: 768px) { .nav-links { display: none !important; } .mobile-menu-btn { display: flex !important; } }
+        @media (min-width: 769px) { .mobile-menu-btn { display: none !important; } .mobile-nav-panel { display: none !important; } }
+        .section-gap { padding-top: 100px; padding-bottom: 0; }
+        @media (min-width: 768px) { .section-gap { padding-top: 160px; } }
+        /* Mobile-first overrides */
+        @media (max-width: 767px) {
+            .rounded-organic { border-radius: 24px; }
+            .rounded-organic-lg { border-radius: 32px; }
+            .garantia-badge { padding: 16px; border-radius: 16px; }
+            .resolve-tag { font-size: 8px; }
+            .card-number { font-size: 3rem !important; }
+            table { font-size: 12px; }
+            thead th, tbody td { padding-top: 10px !important; padding-bottom: 10px !important; padding-right: 12px !important; }
+        }
+        .annotation-arrow { animation: arrow-bob 2.5s ease-in-out infinite; }
+        @keyframes arrow-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+        ::selection { background: #5a28b9; color: #fefefe; }
+        .garantia-badge {
+            background: linear-gradient(135deg, rgba(90,40,185,0.15), rgba(172,120,237,0.1));
+            border: 1px solid rgba(172,120,237,0.3);
+            border-radius: 20px;
+            padding: 20px 24px;
+        }
+        .resolve-tag {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(172,120,237,0.7);
+            background: rgba(90,40,185,0.15);
+            border: 1px solid rgba(172,120,237,0.2);
+            border-radius: 999px;
+            padding: 4px 12px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background: rgba(31,31,35,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between" style="height:80px;">
+            <div class="flex items-center gap-6">
+                <div class="hidden md:block w-px h-6" style="background:rgba(172,120,237,0.2)"></div>
+                <a href="#hero" class="font-serif italic text-xl tracking-tight" style="color:#ac78ed">Ana | Automações e IA</a>
+            </div>
+            <div class="nav-links hidden md:flex items-center gap-8">
+                <a href="#diagnostico" class="nav-link label-ui hover:text-white transition-colors" style="color:rgba(255,255,255,0.5)">Diagnóstico</a>
+                <a href="#solucao" class="nav-link label-ui hover:text-white transition-colors" style="color:rgba(255,255,255,0.5)">Solução</a>
+                <a href="#cronograma" class="nav-link label-ui hover:text-white transition-colors" style="color:rgba(255,255,255,0.5)">Cronograma</a>
+                <a href="#investimento" class="nav-link label-ui hover:text-white transition-colors" style="color:rgba(255,255,255,0.5)">Investimento</a>
+                <a href="#proximos-passos" class="nav-link label-ui hover:text-white transition-colors" style="color:rgba(255,255,255,0.5)">Próximos Passos</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#investimento" class="btn-pill hidden md:inline-block px-6 py-2.5 label-ui" style="background:#5a28b9;color:#fefefe;">Ver Proposta</a>
+                <button onclick="toggleMobileNav()" class="mobile-menu-btn items-center justify-center w-10 h-10 rounded-full transition-colors" style="color:#ac78ed">
+                    <svg id="menu-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                        <line x1="3" y1="6" x2="17" y2="6"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="14" x2="17" y2="14"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-nav" class="mobile-nav-panel hidden backdrop-blur-xl border-t" style="background:rgba(31,31,35,0.97);border-color:rgba(172,120,237,0.15)">
+            <div class="flex flex-col items-center gap-6 py-10 px-6">
+                <a href="#diagnostico" onclick="closeMobileNav()" class="label-ui-lg hover:text-white" style="color:rgba(255,255,255,0.6)">Diagnóstico</a>
+                <a href="#solucao" onclick="closeMobileNav()" class="label-ui-lg hover:text-white" style="color:rgba(255,255,255,0.6)">Solução</a>
+                <a href="#cronograma" onclick="closeMobileNav()" class="label-ui-lg hover:text-white" style="color:rgba(255,255,255,0.6)">Cronograma</a>
+                <a href="#investimento" onclick="closeMobileNav()" class="label-ui-lg hover:text-white" style="color:rgba(255,255,255,0.6)">Investimento</a>
+                <a href="#proximos-passos" onclick="closeMobileNav()" class="label-ui-lg hover:text-white" style="color:rgba(255,255,255,0.6)">Próximos Passos</a>
+                <div class="w-12 h-px my-2" style="background:rgba(172,120,237,0.2)"></div>
+                <a href="#investimento" onclick="closeMobileNav()" class="btn-pill px-8 py-3 label-ui" style="background:#5a28b9;color:#fefefe;">Ver Proposta</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center px-5 md:px-10 pt-20 pb-12 max-w-7xl mx-auto">
+        <div class="reveal">
+            <p class="label-ui mb-8" style="color:rgba(172,120,237,0.7)">Proposta Comercial &mdash; Junho 2026</p>
+            <h1 class="font-serif leading-[0.88] tracking-tight mb-10">
+                <span class="italic block text-[clamp(40px,10vw,140px)]" style="color:#fefefe">Operação</span>
+                <span class="block text-[clamp(40px,10vw,140px)]" style="color:#fefefe">
+                    <span class="hand-underline" style="color:#ac78ed">Imobiliária
+                        <svg viewBox="0 0 400 14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <path d="M2 10C80 4 180 14 260 6C310 0 360 11 398 5" stroke="#ac78ed" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                </span>
+                <span class="italic block text-[clamp(34px,8vw,110px)]" style="color:rgba(255,255,255,0.5)">24h no</span>
+                <span class="block text-[clamp(40px,10vw,140px)]" style="color:#fefefe">Automático</span>
+            </h1>
+        </div>
+        <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-10 mt-6" style="transition-delay:0.2s;">
+            <p class="font-sans text-base md:text-lg font-light max-w-xl leading-relaxed" style="color:rgba(255,255,255,0.55)">
+                Caroline, você trouxe um briefing detalhado e organizado — isso me diz que você já sabe o que precisa. Aqui está a operação que vai trabalhar por você enquanto você fecha negócios.
+            </p>
+            <div class="flex-shrink-0 text-right">
+                <p class="font-hand text-4xl md:text-5xl leading-none" style="color:rgba(172,120,237,0.5)">Cupom</p>
+                <p class="font-hand text-4xl md:text-5xl leading-none" style="color:#ac78ed">SALVADOR</p>
+                <div class="annotation-arrow mt-3 flex justify-end">
+                    <svg width="24" height="32" fill="none" stroke="#5a28b9" stroke-width="2" stroke-linecap="round"><path d="M12 2v24M5 20l7 8 7-8"/></svg>
+                </div>
+            </div>
+        </div>
+        <div class="reveal mt-20 flex flex-wrap gap-x-12 gap-y-4 border-t pt-8" style="border-color:rgba(172,120,237,0.15);transition-delay:0.35s;">
+            <div>
+                <p class="label-ui mb-1" style="color:rgba(172,120,237,0.5)">Para</p>
+                <p class="font-sans text-sm font-medium">Caroline Pereira &mdash; Corretora Autônoma | CRECI 17.635</p>
+            </div>
+            <div>
+                <p class="label-ui mb-1" style="color:rgba(172,120,237,0.5)">De</p>
+                <p class="font-sans text-sm font-medium">Ana | Automações e IA</p>
+            </div>
+            <div>
+                <p class="label-ui mb-1" style="color:rgba(172,120,237,0.5)">Data</p>
+                <p class="font-sans text-sm font-medium">Junho de 2026</p>
+            </div>
+            <div>
+                <p class="label-ui mb-1" style="color:rgba(172,120,237,0.5)">Prazo</p>
+                <p class="font-sans text-sm font-medium">45 dias do zero à operação no ar</p>
+            </div>
+            <div>
+                <p class="label-ui mb-1" style="color:rgba(172,120,237,0.5)">Validade</p>
+                <p class="font-sans text-sm font-medium">15 dias</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIAGNÓSTICO -->
+    <section id="diagnostico" class="section-gap px-6 md:px-10 max-w-7xl mx-auto">
+        <div class="reveal">
+            <p class="label-ui mb-4" style="color:#5a28b9">01 &mdash; Diagnóstico</p>
+            <h2 class="font-serif italic text-[clamp(36px,6vw,80px)] leading-[0.92] tracking-tight max-w-4xl mb-16" style="color:#fefefe">
+                O problema não é falta de esforço.<br class="hidden md:block">
+                É que você não consegue estar em
+                <span class="hand-underline" style="color:#ac78ed"> todos os lugares.
+                    <svg viewBox="0 0 420 14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <path d="M2 8C80 9.5 200 -2 300 7C360 12 395 3 418 6" stroke="#ac78ed" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </span>
+            </h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 reveal-children">
+            <div class="philosophy-card rounded-organic p-6 md:p-10 flex flex-col justify-between cursor-default">
+                <div>
+                    <div class="card-icon mb-6">
+                        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif italic text-2xl mb-3">"Demoro 20 minutos para responder e o lead já foi"</h3>
+                </div>
+                <p class="font-sans text-sm font-light leading-relaxed" style="opacity:0.7">
+                    Enquanto você está em uma visita ou fora do celular, o lead abre o Google, encontra outro corretor e fecha. A janela de atenção é de minutos — não de horas.
+                </p>
+            </div>
+            <div class="philosophy-card rounded-organic p-6 md:p-10 flex flex-col justify-between cursor-default md:translate-y-8">
+                <div>
+                    <div class="card-icon mb-6">
+                        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif italic text-2xl mb-3">"Respondo as mesmas perguntas o dia inteiro"</h3>
+                </div>
+                <p class="font-sans text-sm font-light leading-relaxed" style="opacity:0.7">
+                    "Tem garagem?", "Aceita financiamento?", "Qual o valor do condomínio?" — horas por dia respondendo perguntas que uma automação faria em segundos, enquanto você poderia estar negociando.
+                </p>
+            </div>
+            <div class="philosophy-card rounded-organic p-6 md:p-10 flex flex-col justify-between cursor-default">
+                <div>
+                    <div class="card-icon mb-6">
+                        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif italic text-2xl mb-3">"Meus leads estão espalhados em todo lugar"</h3>
+                </div>
+                <p class="font-sans text-sm font-light leading-relaxed" style="opacity:0.7">
+                    WhatsApp, Instagram, formulários, portais, anotações no caderno — sem centralização, você não tem visão do funil de leads e perde o momento certo de fechar sem nem perceber.
+                </p>
+            </div>
+            <div class="philosophy-card rounded-organic p-6 md:p-10 flex flex-col justify-between cursor-default md:translate-y-8">
+                <div>
+                    <div class="card-icon mb-6">
+                        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif italic text-2xl mb-3">"Contatos somem depois da visita e não volto atrás"</h3>
+                </div>
+                <p class="font-sans text-sm font-light leading-relaxed" style="opacity:0.7">
+                    Depois da visita, da proposta, do silêncio — o follow-up fica na memória e acaba não acontecendo. Oportunidades que estavam quentes esfriaram porque ninguém foi atrás.
+                </p>
+            </div>
+        </div>
+
+        <!-- Custo da inação -->
+        <div class="reveal mt-12 rounded-organic-lg p-6 md:p-16" style="background:#27273a;transition-delay:0.1s;">
+            <p class="label-ui mb-6" style="color:#5a28b9">O Custo Real da Inação</p>
+            <p class="font-serif italic text-xl md:text-3xl leading-snug max-w-4xl mb-10" style="color:#fefefe">
+                Se você recebe 20 contatos por mês e perde 30% por demora no atendimento, isso é <strong class="not-italic font-serif" style="color:#ac78ed">R$ 3.000 a R$ 6.000 por mês</strong> que ficam na mesa — <strong class="not-italic font-serif" style="color:#ded2ff">R$ 36.000 a R$ 72.000 por ano</strong> em comissões que deveriam ser suas.
+            </p>
+            <p class="font-sans text-sm font-light leading-relaxed max-w-2xl" style="color:rgba(255,255,255,0.45)">
+                A questão não é se você pode investir em automação. É quanto você está perdendo por não ter ela.
+            </p>
+        </div>
+    </section>
+
+    <!-- SOLUÇÃO -->
+    <section id="solucao" class="section-gap px-6 md:px-10 max-w-7xl mx-auto">
+        <div class="reveal">
+            <p class="label-ui mb-4" style="color:#5a28b9">02 &mdash; A Solução</p>
+            <h2 class="font-serif italic text-[clamp(36px,6vw,80px)] leading-[0.92] tracking-tight max-w-5xl mb-6" style="color:#fefefe">
+                <span class="hand-underline" style="color:#ac78ed">4 Componentes
+                    <svg viewBox="0 0 340 14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <path d="M2 9C70 2 160 13 240 5C285 1 315 10 338 7" stroke="#ac78ed" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </span> integrados
+            </h2>
+            <p class="font-sans text-lg font-light mb-16" style="color:rgba(255,255,255,0.55);max-width:40rem">
+                Uma operação completa desenhada para corretora autônoma. Cada peça resolve uma dor específica. Juntas, fazem seu negócio rodar 24h — sem você precisar estar disponível o tempo todo.
+            </p>
+        </div>
+
+        <div class="space-y-6 reveal-children">
+
+            <!-- Componente 1 -->
+            <div class="philosophy-card rounded-organic p-6 md:p-12 cursor-default">
+                <div class="flex flex-col md:flex-row md:items-start gap-6 md:gap-12">
+                    <div class="flex-shrink-0">
+                        <span class="card-number font-serif text-6xl md:text-8xl opacity-20 leading-none">01</span>
+                    </div>
+                    <div class="flex-1">
+                        <span class="resolve-tag">Resolve: leads dos portais perdidos por falta de resposta rápida</span>
+                        <h3 class="font-serif italic text-2xl md:text-3xl mb-2 leading-tight">Motor de Automação Central</h3>
+                        <p class="label-ui mb-4" style="opacity:0.5;color:inherit">Quando você está em visita, ele garante que nenhum lead fica sem atendimento</p>
+                        <p class="font-sans font-light text-sm md:text-base leading-relaxed max-w-2xl" style="opacity:0.7">
+                            Cada lead que chega via OLX, Viva Real ou Zap Imóveis é capturado automaticamente e entra direto no CRM — sem você precisar copiar nada manualmente. Quando um contato chega às 22h e você está dormindo, o motor garante atendimento em menos de 2 minutos e você acorda com o histórico completo registrado. Os leads do WhatsApp também entram pelo mesmo fluxo. Tudo centralizado, nada perdido.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Componente 2 -->
+            <div class="philosophy-card rounded-organic p-6 md:p-12 cursor-default">
+                <div class="flex flex-col md:flex-row md:items-start gap-6 md:gap-12">
+                    <div class="flex-shrink-0">
+                        <span class="card-number font-serif text-6xl md:text-8xl opacity-20 leading-none">02</span>
+                    </div>
+                    <div class="flex-1">
+                        <span class="resolve-tag">Resolve: falta de organização e perda do momento certo de fechar</span>
+                        <h3 class="font-serif italic text-2xl md:text-3xl mb-2 leading-tight">CRM com Funil Comercial de 11 Etapas</h3>
+                        <p class="label-ui mb-4" style="opacity:0.5;color:inherit">Você vê, em uma tela só, em que etapa cada cliente está</p>
+                        <p class="font-sans font-light text-sm md:text-base leading-relaxed mb-4 max-w-2xl" style="opacity:0.7">
+                            Cada lead entra automaticamente no CRM com histórico completo — de onde veio, o que perguntou, o que a IA respondeu, quando a visita foi agendada. Funil visual com alertas para nunca perder o momento certo de fechar.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            {['Novo Lead','Atendimento Iniciado','Qualificação','Lead Qualificado','Imóveis Enviados','Visita Agendada','Visita Realizada','Proposta Enviada','Negociação','Fechado','Perdido'].map((e,i) => `<span style="background:rgba(90,40,185,0.2);border:1px solid rgba(172,120,237,0.2);border-radius:999px;padding:4px 12px;font-size:11px;color:rgba(172,120,237,0.8);font-family:Inter,sans-serif;">${i+1}. ${e}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Componente 3 -->
+            <div class="philosophy-card rounded-organic p-6 md:p-12 cursor-default">
+                <div class="flex flex-col md:flex-row md:items-start gap-6 md:gap-12">
+                    <div class="flex-shrink-0">
+                        <span class="card-number font-serif text-6xl md:text-8xl opacity-20 leading-none">03</span>
+                    </div>
+                    <div class="flex-1">
+                        <span class="resolve-tag">Resolve: atendimento manual, qualificação demorada e envio de fotos na mão</span>
+                        <h3 class="font-serif italic text-2xl md:text-3xl mb-2 leading-tight">Agente de IA Imobiliário</h3>
+                        <p class="label-ui mb-4" style="opacity:0.5;color:inherit">Você só entra na conversa quando já tem um lead pronto para visita</p>
+                        <p class="font-sans font-light text-sm md:text-base leading-relaxed max-w-2xl" style="opacity:0.7">
+                            O agente faz o primeiro atendimento imediatamente, identifica o interesse (compra ou locação), coleta faixa de valor, bairro desejado, forma de pagamento e outros dados importantes. Depois consulta seu banco de imóveis e envia fotos, vídeos e ficha técnica direto pelo WhatsApp — tudo automaticamente. Quando o lead está qualificado e pronto, ele te encaminha. Você nunca mais responde "qual o valor?" ou "tem garagem?" manualmente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="space-y-6 mt-6 reveal-children">
+
+            <!-- Componente 4 -->
+            <div class="philosophy-card rounded-organic p-6 md:p-12 cursor-default">
+                <div class="flex flex-col md:flex-row md:items-start gap-6 md:gap-12">
+                    <div class="flex-shrink-0">
+                        <span class="card-number font-serif text-6xl md:text-8xl opacity-20 leading-none">04</span>
+                    </div>
+                    <div class="flex-1">
+                        <span class="resolve-tag">Resolve: falta de acompanhamento após visitas e propostas</span>
+                        <h3 class="font-serif italic text-2xl md:text-3xl mb-2 leading-tight">Acompanhamento Automático</h3>
+                        <p class="label-ui mb-4" style="opacity:0.5;color:inherit">Leads que somem não somem mais — eles recebem a mensagem certa na hora certa</p>
+                        <ul class="space-y-2.5 max-w-2xl">
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="opacity:0.7"><span class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:#ac78ed;opacity:0.7"></span>Lead sem resposta após o primeiro contato</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="opacity:0.7"><span class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:#ac78ed;opacity:0.7"></span>Lead que recebeu imóveis e parou de responder</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="opacity:0.7"><span class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:#ac78ed;opacity:0.7"></span>Lead que fez visita e não voltou com retorno</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="opacity:0.7"><span class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:#ac78ed;opacity:0.7"></span>Lead que recebeu proposta e sumiu</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="opacity:0.7"><span class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:#ac78ed;opacity:0.7"></span>Leads inativos há 30, 60 ou 90 dias (reativação)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Resultados -->
+        <div class="reveal mt-12 rounded-organic-lg p-6 md:p-16" style="background:#27273a;transition-delay:0.1s;">
+            <p class="label-ui mb-6" style="color:#5a28b9">O que Esta Operação Garante</p>
+            <div class="overflow-x-auto mb-8">
+                <table class="w-full font-sans text-sm">
+                    <thead>
+                        <tr style="border-bottom:1px solid rgba(172,120,237,0.2)">
+                            <th class="text-left py-3 pr-6 font-medium label-ui" style="color:rgba(172,120,237,0.6)">Indicador</th>
+                            <th class="text-left py-3 pr-6 font-medium label-ui" style="color:rgba(172,120,237,0.6)">Hoje</th>
+                            <th class="text-left py-3 font-medium label-ui" style="color:rgba(172,120,237,0.6)">Com a Operação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid rgba(172,120,237,0.1)">
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.7)">Tempo de primeiro atendimento</td>
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.5)">20 min – 2h</td>
+                            <td class="py-4 font-light" style="color:#ded2ff">Até 60 segundos</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(172,120,237,0.1)">
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.7)">Leads sem resposta por demora</td>
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.5)">25–35%</td>
+                            <td class="py-4 font-light" style="color:#ded2ff">Menos de 5%</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(172,120,237,0.1)">
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.7)">Horas em operacional por semana</td>
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.5)">15–20h</td>
+                            <td class="py-4 font-light" style="color:#ded2ff">3–5h</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(172,120,237,0.1)">
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.7)">Leads qualificados automaticamente</td>
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.5)">0% (tudo manual)</td>
+                            <td class="py-4 font-light" style="color:#ded2ff">70–85%</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(172,120,237,0.1)">
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.7)">Follow-ups realizados</td>
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.5)">Dependente da memória</td>
+                            <td class="py-4 font-light" style="color:#ded2ff">100% automatizados</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.7)">Visibilidade do funil de leads</td>
+                            <td class="py-4 pr-6 font-light" style="color:rgba(255,255,255,0.5)">Nenhuma (anotações)</td>
+                            <td class="py-4 font-light" style="color:#ac78ed">Completa em tempo real</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="font-serif italic text-lg md:text-xl leading-snug max-w-3xl" style="color:#fefefe">
+                Você para de ser recepcionista, secretária e follow-upper. Você começa a trabalhar apenas em visitas, negociações e fechamentos.
+            </p>
+            <p class="font-sans text-xs font-light mt-4 max-w-2xl" style="color:rgba(255,255,255,0.35)">
+                Não prometemos fechamentos — isso depende do seu mercado, dos seus imóveis e da sua negociação. O que prometemos é eliminar as razões operacionais que impedem fechamentos: o lead que espera 20 minutos já foi para o concorrente antes mesmo de você saber que existia. Com a operação rodando, isso para.
+            </p>
+        </div>
+    </section>
+
+    <!-- CRONOGRAMA -->
+    <section id="cronograma" class="section-gap">
+        <div class="px-6 md:px-10 max-w-7xl mx-auto">
+            <div class="reveal flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+                <div>
+                    <p class="label-ui mb-4" style="color:#5a28b9">03 — Cronograma</p>
+                    <h2 class="font-serif italic text-[clamp(36px,6vw,80px)] leading-[0.92] tracking-tight" style="color:#fefefe">
+                        45 dias para
+                        <span class="hand-underline" style="color:#ac78ed">virar a chave
+                            <svg viewBox="0 0 300 14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                                <path d="M2 7C70 12 140 1 210 9C250 12 275 4 298 6" stroke="#ac78ed" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                    </h2>
+                </div>
+                <div class="hidden md:flex items-center gap-3">
+                    <button onclick="scrollGallery(-1)" class="w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-300" style="border-color:rgba(172,120,237,0.25);color:#ac78ed" onmouseover="this.style.background='#5a28b9';this.style.color='#fefefe'" onmouseout="this.style.background='transparent';this.style.color='#ac78ed'">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 2L4 8l6 6"/></svg>
+                    </button>
+                    <button onclick="scrollGallery(1)" class="w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-300" style="border-color:rgba(172,120,237,0.25);color:#ac78ed" onmouseover="this.style.background='#5a28b9';this.style.color='#fefefe'" onmouseout="this.style.background='transparent';this.style.color='#ac78ed'">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2l6 6-6 6"/></svg>
+                    </button>
+                </div>
+            </div>
+            <p class="reveal font-sans text-xs font-light mb-8" style="color:rgba(172,120,237,0.5)">* Prazo começa após o recebimento dos acessos e materiais necessários</p>
+        </div>
+
+        <div class="relative">
+            <div class="hidden md:block absolute left-0 top-0 bottom-0 w-20 pointer-events-none" style="background:linear-gradient(to right,#1f1f23,transparent);z-index:10"></div>
+            <div class="hidden md:block absolute right-0 top-0 bottom-0 w-20 pointer-events-none" style="background:linear-gradient(to left,#1f1f23,transparent);z-index:10"></div>
+
+            <div id="timeline-gallery" class="gallery-scroll flex gap-6 px-6 md:px-10 pb-4">
+                <div class="flex-shrink-0 w-[85vw] md:w-[420px]">
+                    <div class="rounded-organic-lg p-6 md:p-10 min-h-[300px] md:min-h-[380px] flex flex-col justify-between relative overflow-hidden" style="background:#27273a">
+                        <div class="absolute top-6 right-6"><span class="label-ui px-4 py-2 rounded-full" style="background:rgba(90,40,185,0.2);color:rgba(172,120,237,0.7);font-size:9px;">D+1</span></div>
+                        <div><p class="font-serif text-7xl opacity-10 mb-4 leading-none" style="color:#ac78ed">01</p><h3 class="font-serif italic text-3xl md:text-4xl mb-2" style="color:#fefefe">Conexão</h3><div class="w-12 h-0.5 mb-6" style="background:#5a28b9"></div></div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>Sessão de alinhamento inicial</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>Mapeamento do processo atual e dos canais</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>Recebimento dos acessos e base de imóveis</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-[85vw] md:w-[420px]">
+                    <div class="rounded-organic-lg p-6 md:p-10 min-h-[300px] md:min-h-[380px] flex flex-col justify-between relative overflow-hidden" style="background:#27273a">
+                        <div class="absolute top-6 right-6"><span class="label-ui px-4 py-2 rounded-full" style="background:rgba(90,40,185,0.2);color:rgba(172,120,237,0.7);font-size:9px;">D+15</span></div>
+                        <div><p class="font-serif text-7xl opacity-10 mb-4 leading-none" style="color:#ac78ed">02</p><h3 class="font-serif italic text-3xl md:text-4xl mb-2" style="color:#fefefe">CRM + Portais</h3><div class="w-12 h-0.5 mb-6" style="background:#5a28b9"></div></div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>CRM configurado com o funil de 11 etapas</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>OLX, Viva Real e Zap integrados e enviando leads</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>WhatsApp conectado ao CRM</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-[85vw] md:w-[420px]">
+                    <div class="rounded-organic-lg p-6 md:p-10 min-h-[300px] md:min-h-[380px] flex flex-col justify-between relative overflow-hidden" style="background:#27273a">
+                        <div class="absolute top-6 right-6"><span class="label-ui px-4 py-2 rounded-full" style="background:rgba(90,40,185,0.2);color:rgba(172,120,237,0.7);font-size:9px;">D+35</span></div>
+                        <div><p class="font-serif text-7xl opacity-10 mb-4 leading-none" style="color:#ac78ed">03</p><h3 class="font-serif italic text-3xl md:text-4xl mb-2" style="color:#fefefe">Agente de IA</h3><div class="w-12 h-0.5 mb-6" style="background:#5a28b9"></div></div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>IA treinada com seus imóveis e tom de voz aprovado</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>Fluxo de qualificação e envio de imóveis testado</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.6)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:#ac78ed"></span>Acompanhamentos automáticos configurados</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-[85vw] md:w-[420px]">
+                    <div class="rounded-organic-lg p-8 md:p-10 min-h-[380px] flex flex-col justify-between relative overflow-hidden text-snow" style="background:#5a28b9">
+                        <div class="absolute top-6 right-6"><span class="label-ui px-4 py-2 rounded-full" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-size:9px;">D+45</span></div>
+                        <div><p class="font-serif text-7xl opacity-20 mb-4 leading-none">04</p><h3 class="font-serif italic text-3xl md:text-4xl mb-2">Entrada em Operação</h3><div class="w-12 h-0.5 mb-6" style="background:rgba(255,255,255,0.3)"></div></div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.7)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:rgba(255,255,255,0.5)"></span>Sistema completo rodando com leads reais</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.7)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:rgba(255,255,255,0.5)"></span>Revisão dos primeiros resultados</li>
+                            <li class="flex items-start gap-3 font-sans text-sm font-light" style="color:rgba(255,255,255,0.7)"><span class="w-1 h-1 rounded-full mt-2 flex-shrink-0" style="background:rgba(255,255,255,0.5)"></span>Ajustes finos com sua aprovação</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-6 md:w-10"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INVESTIMENTO -->
+    <section id="investimento" class="section-gap px-6 md:px-10 max-w-7xl mx-auto">
+        <div class="reveal">
+            <p class="label-ui mb-4" style="color:#5a28b9">04 — Investimento</p>
+            <h2 class="font-serif italic text-[clamp(36px,6vw,80px)] leading-[0.92] tracking-tight max-w-4xl mb-6" style="color:#fefefe">
+                Condições
+                <span class="hand-underline" style="color:#ac78ed">comerciais
+                    <svg viewBox="0 0 300 14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <path d="M2 10C50 3 120 13 190 5C240 0 270 11 298 7" stroke="#ac78ed" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </span>
+            </h2>
+            <p class="font-sans text-base font-light mb-6 max-w-2xl" style="color:rgba(255,255,255,0.5)">
+                Antes de falar em números, o que você está recebendo — e o que custaria contratar cada parte separadamente no mercado:
+            </p>
+        </div>
+
+        <!-- Value Stack -->
+        <div class="reveal mb-12 rounded-organic p-8 md:p-10" style="background:#27273a;border:1px solid rgba(172,120,237,0.1)">
+            <p class="label-ui mb-6" style="color:rgba(172,120,237,0.5)">Valor do Trabalho Especializado Incluso</p>
+            <div class="grid md:grid-cols-2 gap-x-12 gap-y-3">
+                <div class="flex justify-between items-center py-2" style="border-bottom:1px solid rgba(172,120,237,0.08)"><span class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">Integração portais (OLX, Viva Real, Zap) → CRM</span><span class="font-sans text-sm font-medium" style="color:#ac78ed">R$ 600–900</span></div>
+                <div class="flex justify-between items-center py-2" style="border-bottom:1px solid rgba(172,120,237,0.08)"><span class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">Configuração CRM + Funil de 11 etapas</span><span class="font-sans text-sm font-medium" style="color:#ac78ed">R$ 800–1.500</span></div>
+                <div class="flex justify-between items-center py-2" style="border-bottom:1px solid rgba(172,120,237,0.08)"><span class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">Agente de IA imobiliário + banco de imóveis</span><span class="font-sans text-sm font-medium" style="color:#ac78ed">R$ 2.000–3.800</span></div>
+                <div class="flex justify-between items-center py-2" style="border-bottom:1px solid rgba(172,120,237,0.08)"><span class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">Integração WhatsApp → CRM</span><span class="font-sans text-sm font-medium" style="color:#ac78ed">R$ 400–600</span></div>
+                <div class="flex justify-between items-center py-2" style="border-bottom:1px solid rgba(172,120,237,0.08)"><span class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">5 sequências de acompanhamento automático</span><span class="font-sans text-sm font-medium" style="color:#ac78ed">R$ 600–900</span></div>
+                <div class="flex justify-between items-center py-2" style="border-bottom:1px solid rgba(172,120,237,0.08)"><span class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">Painel comercial + relatórios</span><span class="font-sans text-sm font-medium" style="color:#ac78ed">R$ 400–700</span></div>
+            </div>
+            <div class="flex justify-between items-center mt-6 pt-4" style="border-top:1px solid rgba(172,120,237,0.2)">
+                <span class="font-sans text-sm font-medium" style="color:rgba(255,255,255,0.7)">Valor total do trabalho especializado</span>
+                <span class="font-serif italic text-2xl" style="color:#ded2ff">R$ 4.800 a R$ 8.400</span>
+            </div>
+        </div>
+
+        <!-- Opção 1 -->
+        <div class="reveal mb-4 flex flex-wrap items-center gap-3">
+            <span class="inline-block px-4 py-2 rounded-full font-sans text-xs font-semibold tracking-widest uppercase" style="background:rgba(90,40,185,0.25);color:#ac78ed;border:1px solid rgba(172,120,237,0.3)">Opção 1 — Com Suporte Contínuo</span>
+            <span class="inline-block px-4 py-2 rounded-full font-sans text-xs font-semibold tracking-widest uppercase" style="background:rgba(90,40,185,0.12);color:rgba(172,120,237,0.7);border:1px solid rgba(172,120,237,0.15)">Operação inclusa na minha infraestrutura</span>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 reveal-children mb-6">
+            <div class="rounded-organic-lg p-6 md:p-10 flex flex-col justify-between relative overflow-hidden" style="background:#5a28b9">
+                <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full" style="background:rgba(172,120,237,0.15)"></div>
+                <div>
+                    <p class="label-ui mb-4" style="color:rgba(255,255,255,0.5)">Implementação — 1º mês incluso</p>
+                    <h3 class="font-serif italic text-2xl md:text-3xl mb-4 leading-tight" style="color:#fefefe">Operação completa<br>entregue funcionando</h3>
+                    <ul class="space-y-2 mb-6">
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.7)">✓ 4 componentes integrados</li>
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.7)">✓ Agente de IA treinado com seus imóveis</li>
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.7)">✓ Toda a infraestrutura inclusa</li>
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.7)">✓ Garantia: 30 dias de ajustes após a entrega</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="flex items-baseline gap-4 mb-1">
+                        <span class="price-old font-serif text-xl" style="color:#fefefe">R$ 2.497</span>
+                        <span class="font-hand text-xl" style="color:#ded2ff">cupom SALVADOR</span>
+                    </div>
+                    <p class="font-serif italic text-4xl md:text-5xl" style="color:#fefefe">R$ 1.997</p>
+                    <p class="font-sans text-xs font-light mt-2" style="color:rgba(255,255,255,0.45)">Valor de implementação</p>
+                </div>
+            </div>
+
+            <div class="rounded-organic-lg p-6 md:p-10 flex flex-col justify-between relative overflow-hidden" style="background:#2e2250;border:1px solid rgba(172,120,237,0.25)">
+                <div class="absolute -bottom-16 -right-16 w-48 h-48 rounded-full" style="background:rgba(90,40,185,0.12)"></div>
+                <div>
+                    <p class="label-ui mb-4" style="color:rgba(172,120,237,0.6)">Manutenção mensal — a partir do 2º mês</p>
+                    <h3 class="font-serif italic text-2xl md:text-3xl mb-4 leading-tight" style="color:#fefefe">Você nunca fica sozinha<br>enquanto a operação rodar</h3>
+                    <ul class="space-y-2 mb-6">
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ <strong style="color:rgba(255,255,255,0.85)">Atualização mensal do banco de imóveis</strong> — fotos, valores, dados e novos imóveis inseridos por mim</li>
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ Ajustes contínuos nos fluxos de automação</li>
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ Atualizações do comportamento da IA conforme o portfólio muda</li>
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ Suporte direto via WhatsApp em até 24h úteis</li>
+                        <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ Monitoramento de todos os sistemas</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="flex items-baseline gap-3 mb-1">
+                        <span class="price-old font-serif text-lg" style="color:#fefefe">R$ 997/mês</span>
+                        <span class="font-hand text-lg" style="color:#ded2ff">cupom SALVADOR</span>
+                    </div>
+                    <p class="font-serif italic text-4xl md:text-5xl" style="color:#ded2ff">R$ 797<span class="text-xl font-sans font-light" style="color:rgba(255,255,255,0.4)">/mês</span></p>
+                    <p class="font-sans text-xs font-light mt-2" style="color:rgba(172,120,237,0.5)">+ CRM à parte a partir de R$ 119/mês</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal mb-10">
+            <div class="garantia-badge">
+                <p class="font-sans text-sm font-light leading-relaxed" style="color:rgba(172,120,237,0.9)">
+                    A mensalidade de R$ 797 equivale a menos de 20% de uma comissão média. Se a operação ajudar a fechar apenas um negócio a mais por mês, ela se paga — e sobra. Qualquer ferramenta pode ser instalada. O que você está contratando é a operação calibrada para o seu negócio específico — seus canais, seus imóveis, seu volume de leads — entregue funcionando e acompanhada enquanto rodar.
+                </p>
+            </div>
+        </div>
+
+        <!-- Opção 2 -->
+        <div class="reveal">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <span class="inline-block px-4 py-2 rounded-full font-sans text-xs font-semibold tracking-widest uppercase" style="background:rgba(90,40,185,0.25);color:#ac78ed;border:1px solid rgba(172,120,237,0.3)">Opção 2 — Na Sua Infraestrutura</span>
+                <span class="inline-block px-4 py-2 rounded-full font-sans text-xs font-semibold tracking-widest uppercase" style="background:rgba(90,40,185,0.12);color:rgba(172,120,237,0.7);border:1px solid rgba(172,120,237,0.15)">Pagamento único</span>
+            </div>
+            <div class="rounded-organic-lg p-8 md:p-12 relative overflow-hidden" style="background:#27273a;border:1px solid rgba(172,120,237,0.2)">
+                <div class="absolute -bottom-20 -right-20 w-64 h-64 rounded-full" style="background:rgba(90,40,185,0.06)"></div>
+                <div class="md:flex md:items-start md:gap-12">
+                    <div class="flex-1">
+                        <h3 class="font-serif italic text-2xl md:text-3xl mb-4 leading-tight" style="color:#fefefe">Entrega completa na sua operação</h3>
+                        <ul class="space-y-2 mb-6">
+                            <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ Todos os 4 componentes configurados</li>
+                            <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ 60 dias de garantia e assistência após a entrega</li>
+                            <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ Documentação completa de utilização</li>
+                            <li class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.65)">✓ Após 60 dias, operação 100% sua</li>
+                        </ul>
+                        <div class="garantia-badge">
+                            <p class="font-sans text-xs font-light leading-relaxed" style="color:rgba(172,120,237,0.8)">
+                                <strong style="color:#ac78ed">Atenção:</strong> Você contrata e mantém a própria infraestrutura (motor de automação, OpenAI, WhatsApp API, banco de dados) — estimativa de <strong style="color:#ded2ff">R$ 150–400/mês</strong> por sua conta, além do CRM (a partir de R$ 119/mês). Manutenção fora do período de garantia é cobrada à parte.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-8 md:mt-0 md:flex-shrink-0 md:text-right">
+                        <p class="font-sans text-xs font-light mb-2" style="color:rgba(255,255,255,0.4)">Pagamento único</p>
+                        <p class="font-serif italic text-5xl md:text-6xl mb-2" style="color:#fefefe">R$ 2.997</p>
+                        <p class="font-sans text-xs font-light" style="color:rgba(172,120,237,0.6)">+ CRM e infra por sua conta</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fora do Escopo -->
+        <div class="reveal mt-10 rounded-organic p-8 md:p-10" style="background:#27273a;border:1px solid rgba(172,120,237,0.1)">
+            <p class="label-ui mb-4" style="color:rgba(172,120,237,0.5)">Nosso Foco é a Operação Comercial — Fora Disso:</p>
+            <div class="grid md:grid-cols-2 gap-3">
+                <p class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.45)">✗ Criação e gestão de anúncios (Meta Ads)</p>
+                <p class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.45)">✗ Gestão do perfil e conteúdo do Instagram</p>
+                <p class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.45)">✗ Criação de artes, vídeos ou conteúdo</p>
+                <p class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.45)">✗ Treinamento de equipe (operação solo)</p>
+                <p class="font-sans text-sm font-light" style="color:rgba(255,255,255,0.45)">✗ Manutenção de portais imobiliários</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRÓXIMOS PASSOS -->
+    <section id="proximos-passos" class="section-gap px-6 md:px-10 max-w-7xl mx-auto">
+        <div class="reveal">
+            <p class="label-ui mb-4" style="color:#5a28b9">05 — Próximos Passos</p>
+            <h2 class="font-serif italic text-[clamp(36px,6vw,80px)] leading-[0.92] tracking-tight max-w-4xl mb-20" style="color:#fefefe">
+                Vamos
+                <span class="hand-underline" style="color:#ac78ed">começar
+                    <svg viewBox="0 0 300 14" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <path d="M2 6C60 12 130 0 200 10C240 14 275 3 298 8" stroke="#ac78ed" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </span>?
+            </h2>
+        </div>
+
+        <div class="relative max-w-2xl reveal-children">
+            <div class="timeline-line"></div>
+            <div class="flex gap-8 pb-12 relative">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center z-10" style="background:#ac78ed">
+                    <span class="font-serif italic text-lg" style="color:#1f1f23">1</span>
+                </div>
+                <div class="pt-2">
+                    <h3 class="font-serif italic text-xl md:text-2xl mb-2" style="color:#fefefe">Manda um "oi" no WhatsApp</h3>
+                    <p class="font-sans text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.5)">Sem cerimônia. Uma mensagem já é suficiente para a gente abrir o projeto.</p>
+                </div>
+            </div>
+            <div class="flex gap-8 pb-12 relative">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center z-10" style="background:#ac78ed">
+                    <span class="font-serif italic text-lg" style="color:#1f1f23">2</span>
+                </div>
+                <div class="pt-2">
+                    <h3 class="font-serif italic text-xl md:text-2xl mb-2" style="color:#fefefe">Escolhemos a opção juntas</h3>
+                    <p class="font-sans text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.5)">Opção 1 ou 2, qual CRM faz mais sentido para o seu perfil — decidimos juntas com base na sua situação.</p>
+                </div>
+            </div>
+            <div class="flex gap-8 pb-12 relative">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center z-10" style="background:#ac78ed">
+                    <span class="font-serif italic text-lg" style="color:#1f1f23">3</span>
+                </div>
+                <div class="pt-2">
+                    <h3 class="font-serif italic text-xl md:text-2xl mb-2" style="color:#fefefe">Contrato e pagamento</h3>
+                    <p class="font-sans text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.5)">Documento simples, sem letras miúdas, com tudo que ficou combinado aqui.</p>
+                </div>
+            </div>
+            <div class="flex gap-8 relative">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center z-10" style="background:#5a28b9">
+                    <span class="font-serif italic text-lg" style="color:#fefefe">4</span>
+                </div>
+                <div class="pt-2">
+                    <h3 class="font-serif italic text-xl md:text-2xl mb-2" style="color:#fefefe">Sessão de diagnóstico e início do projeto</h3>
+                    <p class="font-sans text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.5)">Agendamos em até 24h. Em 45 dias, sua operação está rodando no automático — e você está fechando negócios enquanto a IA qualifica seus leads.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section-gap px-6 md:px-10 max-w-7xl mx-auto pb-0">
+        <div class="reveal">
+            <div class="glow-top rounded-[32px] md:rounded-[48px] p-8 md:p-20 text-center relative overflow-hidden" style="background:#5a28b9">
+                <p class="label-ui mb-6" style="color:rgba(255,255,255,0.5)">Pronta para começar?</p>
+                <h2 class="font-serif italic text-[clamp(32px,5vw,72px)] leading-[0.92] tracking-tight mb-4 max-w-3xl mx-auto" style="color:#fefefe">
+                    Tenho uma janela aberta agora para iniciar em julho.
+                </h2>
+                <p class="font-serif text-[clamp(18px,2.5vw,30px)] leading-none tracking-tight mb-10" style="color:#ded2ff">Manda um "oi" e já iniciamos na próxima segunda.</p>
+                <a href="https://wa.me/5571985023516" target="_blank" class="btn-pill inline-block px-10 md:px-14 py-4 md:py-5 font-sans text-sm md:text-base font-medium tracking-wide" style="background:#fefefe;color:#5a28b9;">
+                    Mandar um "oi" no WhatsApp
+                </a>
+                <p class="font-hand text-2xl mt-6" style="color:rgba(255,255,255,0.4)">Em 45 dias sua operação muda</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-40" style="background:#27273a">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-10">
+            <div class="flex flex-col md:flex-row md:justify-between gap-12 mb-16">
+                <div class="max-w-md">
+                    <p class="font-serif italic text-4xl md:text-5xl tracking-tight mb-4" style="color:#ac78ed">Ana | Automações e IA</p>
+                    <p class="font-sans text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.4)">
+                        Estou à disposição para ajustar qualquer detalhe antes de você decidir.
+                    </p>
+                </div>
+                <div class="flex flex-col md:items-end gap-2">
+                    <p class="label-ui mb-3" style="color:rgba(172,120,237,0.4)">Contato</p>
+                    <a href="mailto:anabraga.automacoes@gmail.com" class="font-sans text-sm" style="color:rgba(255,255,255,0.5)">anabraga.automacoes@gmail.com</a>
+                    <a href="https://wa.me/5571985023516" target="_blank" class="btn-pill inline-block mt-4 label-ui px-6 py-2.5 transition-all duration-300" style="border:1px solid rgba(172,120,237,0.25);color:#ac78ed" onmouseover="this.style.background='#5a28b9';this.style.color='#fefefe'" onmouseout="this.style.background='transparent';this.style.color='#ac78ed'">
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="border-t pt-6 flex flex-col md:flex-row md:justify-between gap-4" style="border-color:rgba(172,120,237,0.1)">
+                <p class="label-ui" style="color:rgba(255,255,255,0.2)">&copy; 2026 Ana | Automações e IA. Todos os direitos reservados.</p>
+                <p class="label-ui" style="color:rgba(255,255,255,0.2)">Proposta Confidencial &mdash; Caroline Pereira CRECI 17.635</p>
+            </div>
+            <p class="font-sans text-xs font-light mt-4" style="color:rgba(255,255,255,0.2)">Dados coletados em conformidade com a LGPD (Lei nº 13.709/2018). Nenhum dado seu ou dos seus clientes é compartilhado com terceiros. Proposta válida por 15 dias. Cupom SALVADOR válido até o fechamento dentro do prazo.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Funil tags render
+        document.querySelectorAll('[id]').forEach(() => {});
+        const pipelineDiv = document.querySelector('.flex.flex-wrap.gap-2');
+        if (pipelineDiv) {
+            const stages = ['Novo Lead','Atendimento Iniciado','Qualificação em Andamento','Lead Qualificado','Imóveis Enviados','Visita Agendada','Visita Realizada','Proposta Enviada','Negociação','Fechado','Perdido'];
+            pipelineDiv.innerHTML = stages.map((s, i) => `<span style="background:rgba(90,40,185,0.2);border:1px solid rgba(172,120,237,0.2);border-radius:999px;padding:4px 12px;font-size:11px;color:rgba(172,120,237,0.8);font-family:Inter,sans-serif;">${i+1}. ${s}</span>`).join('');
+        }
+
+        // Scroll reveal
+        const observerOptions = { threshold: 0.12, rootMargin: '0px 0px -40px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal, .reveal-children').forEach(el => observer.observe(el));
+
+        // Gallery
+        function scrollGallery(dir) {
+            const gallery = document.getElementById('timeline-gallery');
+            const cardWidth = gallery.querySelector(':first-child').offsetWidth + 24;
+            gallery.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+        }
+
+        // Mobile nav
+        function toggleMobileNav() { document.getElementById('mobile-nav').classList.toggle('hidden'); }
+        function closeMobileNav() { document.getElementById('mobile-nav').classList.add('hidden'); }
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.style.borderBottom = window.scrollY > 100 ? '1px solid rgba(172,120,237,0.1)' : '1px solid transparent';
+        });
+
+        // Active nav links
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => { if (window.scrollY >= section.offsetTop - 120) current = section.getAttribute('id'); });
+            navLinks.forEach(link => { link.style.opacity = link.getAttribute('href') === '#' + current ? '1' : '0.5'; });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            });
+        });
+    </script>
+</body>
+</html>
